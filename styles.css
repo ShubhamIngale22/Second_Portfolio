@@ -63,7 +63,7 @@ body {
     color: var(--text-silver);
     overflow-x: hidden;
     line-height: 1.7;
-    cursor: none;
+    cursor: default;
 }
 
 ::selection {
@@ -2027,6 +2027,37 @@ section {
     gap: 0.4rem;
 }
 
+.visitor-counter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1.2rem;
+    background: rgba(0, 212, 255, 0.06);
+    border: 1px solid rgba(0, 212, 255, 0.2);
+    border-radius: 4px;
+    font-family: 'Syne', sans-serif;
+    box-shadow: 0 0 18px rgba(0, 212, 255, 0.08);
+    transition: all 0.3s ease;
+}
+.visitor-counter:hover {
+    border-color: rgba(0, 212, 255, 0.45);
+    box-shadow: 0 0 28px rgba(0, 212, 255, 0.18);
+}
+.vc-label {
+    font-size: 0.72rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #6b7fa3;
+}
+.vc-number {
+    font-family: 'Orbitron', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    color: #00d4ff;
+    text-shadow: 0 0 12px rgba(0, 212, 255, 0.5);
+    min-width: 2ch;
+}
+
 .resume-certs li { position: relative; padding-left: 1rem; color: var(--text-muted); font-size: 0.84rem; }
 .resume-certs li::before { content: '✓'; position: absolute; left: 0; color: var(--cyan); }
 
@@ -2155,3 +2186,5 @@ section {
     .resume-modal-content { max-width: 100%; max-height: none; box-shadow: none; border-radius: 0; }
     .resume-close, .resume-footer { display: none !important; }
 }
+
+

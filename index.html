@@ -329,6 +329,11 @@
                             <span class="stat-number" data-target="5">0</span>
                             <span class="stat-label">Certifications</span>
                         </div>
+                        <div class="visitor-counter">
+                            <span class="vc-icon">&#128101;</span>
+                            <span class="vc-label">Visitors</span>
+                            <span class="vc-number" id="vc-total">...</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -881,5 +886,47 @@
     <!-- Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="script.js"></script>
+    <!-- Firebase Visitor Counter -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getDatabase, ref, get, set, increment, runTransaction } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCtpdkEuTQCqSkVawZkoJX1iLjXaP0f-04",
+            authDomain: "portfolio-counter-1575f.firebaseapp.com",
+            databaseURL: "https://portfolio-counter-1575f-default-rtdb.firebaseio.com",
+            projectId: "portfolio-counter-1575f",
+            storageBucket: "portfolio-counter-1575f.firebasestorage.app",
+            messagingSenderId: "250312146409",
+            appId: "1:250312146409:web:c0fcf68a3b9b3177f4df78",
+            measurementId: "G-4Q2WV8MK7J"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db  = getDatabase(app);
+
+        const today    = new Date().toISOString().slice(0, 10);
+        const seenKey  = "pf_seen_" + today;
+        const totalRef = ref(db, "visitors/total");
+        const todayRef = ref(db, "visitors/days/" + today);
+
+        async function track() {
+            const alreadySeen = sessionStorage.getItem(seenKey);
+
+            if (!alreadySeen) {
+                await runTransaction(totalRef, c => (c || 0) + 1);
+                await runTransaction(todayRef, c => (c || 0) + 1);
+                sessionStorage.setItem(seenKey, "1");
+            }
+
+            const snap = await get(totalRef);
+            const count = snap.val() || 0;
+
+            const el = document.getElementById("vc-total");
+            if (el) el.textContent = count.toLocaleString();
+        }
+
+        track();
+    </script>
 </body>
 </html>
